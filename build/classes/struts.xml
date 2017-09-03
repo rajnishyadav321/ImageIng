@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+   "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+   "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="application-default" namespace="/"
+		extends="struts-default,json-default">
+
+
+		<interceptors>
+			<interceptor name="LoginInterceptor" class="org.squad.action.LoginInterceptor"></interceptor>
+		</interceptors>
+
+		<global-results>
+			<result name="loginPage" type="redirect">loginP</result>
+		</global-results>
+		<action name="loginP">
+			<result>/jsp/index.jsp</result>
+		</action>
+		<action name="">
+			<result>/jsp/index.jsp</result>
+		</action>
+		<action name="register" class="org.squad.action.RegisterAction">
+			<result name="success" type="redirect">loginP</result>
+		</action>
+		<action name="login" class="org.squad.action.LoginAction">
+			<result name="success" type="redirect">home</result>
+			<result name="error" type="redirect">loginP</result>
+		</action>
+		<action name="home">
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="LoginInterceptor" />
+			<result>/jsp/task.jsp</result>
+		</action>
+		<action name="task" class="org.squad.action.TaskAction">
+			<interceptor-ref name="defaultStack" />
+			<interceptor-ref name="LoginInterceptor" />
+			<result name="success">
+				/jsp/task.jsp
+			</result>
+		</action>
+		<action name="submit" class="org.squad.action.SubmitTaskAction">
+			<result type="json">
+				<param name="ignoreHierarchy">false</param>
+				<param name="includeProperties">
+					actionMessages.*
+				</param>
+			</result>
+		</action>
+		<action name="logout" class="org.squad.action.LogoutAction">
+			<result name="success" type="redirect">loginP</result>
+		</action>
+		<action name="ping" class="org.squad.action.PingAction">
+			<result type="json">
+				<param name="noCache">true</param>
+				<param name="excludeNullProperties">true</param>
+				<param name="root">result</param>
+			</result>
+		</action>
+	</package>
+
+</struts>
+   
